@@ -4,9 +4,8 @@ public interface Uke {
 	
 		void moveToDefend(Judoka uke);
 		
-		void dodge (Judoka tori);
+		void dodge (Judoka uke, Judoka tori);
 		
-		void counter(Judoka tori);
-	
+		void counterThenAttack(Judoka uke, Judoka tori);
 		
 }

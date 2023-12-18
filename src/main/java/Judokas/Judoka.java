@@ -10,72 +10,76 @@ import lombok.Setter;
 
 @Data
 
-@Getter
-@Setter
-
 public abstract class Judoka {
 	
 	Random random = new Random();
-	int rdm = random.nextInt(0, 20);
 	
 	private String firstName;
+	private int ranking = random.nextInt(1, 10); // En fonction de son ranking le judoka gagnera.
+	
 	//private int weight;
 	
-	private int ippon = rdm; // ========>  10 au random VICTOIRE
-	private int waza_ari = rdm; // ======> 14 au random VICTOIRE 
-	private int kinza = rdm; // ========>  5 au random, pas encore de VICTOIRE
+	// ========>>>>> 0 : ECHEC CRITIQUE POUR TOUS !
 	
-	private int failedAttack = rdm; //===> 0 au random ECHEC CRITIQUE
+	private int ippon = random.nextInt(0, 20); // >  10 au random VICTOIRE
+	private int waza_ari = random.nextInt(0, 20); // > 14 au random VICTOIRE 
+	private int kinza = random.nextInt(0, 20); // >  5 au random, pas encore de VICTOIRE
 	
-	private int gooddefend = rdm; // ========= > 20 for a good defense
-	private int goodAttack = rdm; // ======> 19 for a good Attack
+	private int defend = random.nextInt(0, 20); // > 16, 18, 20 for a good defense // 0 ECHEC CRITIQUE
+	private int attack = random.nextInt(0, 20); // > 15, 17, 19 for a good Attack // 0 ECHEC CRITIQUE
 	
-	private int shido = rdm; // ==========> 3 au random : Simule 3 shidos PERDUS !
+	private int shido = random.nextInt(0, 20); // > 1 au random : Simule 3 shidos PERDUS !
 	
 	private boolean defeat;
 	private boolean victory;
-
+	
 	Fatigue fatigue = new Fatigue(5);
 	Energie energie = new Energie(100);
 	
+	
 	public void tryToWin () {
-		if (goodAttack == 17 && goodAttack == 18) {
+		if (attack == 17 && attack == 19) {
 			this.waza_ari += 7;
+			
 			if (ippon == 10 || waza_ari == 14) {
-				this.victory = true;
-			}
-			if (ippon == 0 || waza_ari == 0 && kinza == 5) {
-				this.victory = true;
-			}
-		}
-		
+				
+				if (ippon == 0 || waza_ari == 0 && kinza == 5) {
+					
+					if (ranking <= 3) {
+						this.victory = true;
+					}
+				}
+			}	
+		}	
 	}
 	
 	public void tryDefend () {
-		if (gooddefend == 19 && gooddefend == 20) {
-			if (failedAttack == 0) {
-				if (ippon == 0 || waza_ari == 0 && kinza == 0) {
-					this.victory = false;
+		if (defend == 18 && defend == 20) {
+			
+			if (attack == 0) {
+					
+					if (ranking >= 4) {
+						this.victory = false;
+					}
 				}
 			}
 		}	
-		
-	}
 
-	public void Loose (boolean defeat, int shido) {
+
+	public void penalise () {
 		for (int i = 0; i <= 3; i++) {
 			this.shido += 1;
 				if (shido == 3) {
 					this.defeat = true;
 				}
-		}
-		
+		}	
 	}
+	
 	
 	
 	public void breatheDifficult (int energie, int fatigue) {
 		energie -= fatigue;
-			if (energie <= 20) {
+			if (energie <= 10) {
 				this.ippon = 10;
 			}
 			this.defeat = true;

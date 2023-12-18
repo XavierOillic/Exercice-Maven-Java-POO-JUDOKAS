@@ -11,8 +11,6 @@ public class Combattant extends Judoka implements Tori, Uke {
 		// TODO Auto-generated constructor stub
 	}
 
-
-//////////////////////////////// UKE ICI
 	@Override
 	public void moveToDefend(Judoka uke) {
 		uke.tryDefend();
@@ -20,33 +18,25 @@ public class Combattant extends Judoka implements Tori, Uke {
 	}
 
 	@Override
-	public void dodge(Judoka tori) {
-		
+	public void dodge(Judoka uke, Judoka tori) {
+		uke.tryDefend();
+		tori.getAttack();
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void counter(Judoka tori) {
-		// TODO Auto-generated method stub
-		
+	public void counterThenAttack(Judoka uke, Judoka tori) {
+		// TODO Auto-generated method stub	
+		uke.tryDefend();
+		tori.getAttack();
 	}
-
-	
-	//////////////////////////////// TORI CI DESSOUS
 
 	@Override
 	public void attack(Judoka tori, Judoka uke) {
 		tori.tryToWin();
 		
 	}
-
-	@Override
-	public void moveToAttack(Judoka tori, Judoka uke) {
-		tori.tryToWin();
-		
-	}
-
 
 	@Override
 	public void breathToRecover(int energie, int fatigue, Judoka judoka) {
